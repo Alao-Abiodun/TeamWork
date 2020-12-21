@@ -17,7 +17,7 @@ class GifController {
         data: {
           gifId: createdGif._id,
           message: 'GIF image successfully created',
-          createdOn: Date.now(),
+          createdOn: Date.now,
           title: createdGif.title,
           imageUrl: createdGif.image,
         },
@@ -34,7 +34,10 @@ class GifController {
   async deleteGif(req, res) {
     try {
       const { gifId } = req.params;
-      const gif = await Gif.findByIdAndDelete({ _id: gifId });
+      const gif = await Gif.findByIdAndDelete({
+        _id: gifId,
+        author: req.user.id,
+      });
       if (!gif) {
         return res.status(400).json({
           status: 'error',

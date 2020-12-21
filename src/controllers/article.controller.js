@@ -21,6 +21,7 @@ class ArticleController {
         },
       });
     } catch (error) {
+      console.log(error);
       return res.status(500).json({
         status: error,
         error: new Error('Server Error'),
@@ -43,7 +44,7 @@ class ArticleController {
       } else {
         const { articleId } = req.params;
         const updatedArticle = await Article.findOneAndUpdate(
-          { _id: articleId },
+          { _id: articleId, author: req.user.id },
           req.body,
           {
             new: true,
@@ -65,7 +66,10 @@ class ArticleController {
   async deleteArticle(req, res) {
     try {
       const { articleId } = req.params;
-      const article = await Article.findOneAndRemove({ _id: articleId });
+      const article = await Article.findOneAndRemove({
+        _id: articleId,
+        author: req.user.id,
+      });
       if (!article) {
         return res.status(401).json({
           status: error,
@@ -99,7 +103,10 @@ class ArticleController {
         comment,
       });
       newComment.save();
-      const result = await Article.findOne({ _id: articleId });
+      const result = await Article.findOne({
+        _id: articleId,
+        author: req.user.id,
+      });
       result.comments.push(newComment);
       return res.status(201).json({
         status: 'success',

@@ -38,10 +38,10 @@ class UserController {
         address,
         token,
       });
-      const token = await jwt.sign({ id: existingUser._id }, JWT_SECRET, {
+      const createdUser = await user.save();
+      const token = await jwt.sign({ id: createdUser._id }, JWT_SECRET, {
         expiresIn: '2h',
       });
-      const createdUser = await user.save();
       return res.status(201).json({
         status: 'success',
         data: {
