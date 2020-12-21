@@ -12,14 +12,13 @@ const auth = async (req, res, next) => {
         error: 'Token is not verified',
       });
     const decoded = await jwt.verify(token, JWT_SECRET);
-    console.log(decoded);
     if (!decoded) {
       throw new Error();
     }
     req.user = decoded;
     next();
   } catch (e) {
-    res.status(401).send({ error: 'Please authenticate.' });
+    res.status(401).send({ error: 'Token expired' });
   }
 };
 

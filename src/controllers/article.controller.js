@@ -1,6 +1,6 @@
-import Article from "../models/article.model";
-import Comment from "../models/comment.model";
-import Gifs from "../models/gif.model";
+import Article from '../models/article.model';
+import Comment from '../models/comment.model';
+import Gifs from '../models/gif.model';
 class ArticleController {
   async createArticle(req, res) {
     try {
@@ -12,9 +12,9 @@ class ArticleController {
       });
       const createdArticle = await articles.save();
       return res.status(201).json({
-        status: "success",
+        status: 'success',
         data: {
-          message: "Article successfully posted",
+          message: 'Article successfully posted',
           articleId: createdArticle._id,
           createdOn: Date.now(),
           title: createdArticle.title,
@@ -24,7 +24,7 @@ class ArticleController {
       console.log(error);
       return res.status(500).json({
         status: error,
-        error: new Error("Server Error"),
+        error: new Error('Server Error'),
       });
     }
   }
@@ -32,15 +32,13 @@ class ArticleController {
   async updateArticle(req, res) {
     try {
       const updates = Object.keys(req.body);
-      const allowedUpdates = ["title", "article"];
-      const isUpdate = updates.every((update) =>
-        allowedUpdates.includes(update)
-      );
+      const allowedUpdates = ['title', 'article'];
+      const isUpdate = updates.every(update => allowedUpdates.includes(update));
       if (!isUpdate) {
         return res.status(401).json({
           status: error,
           data: {
-            message: "The required field is not updated",
+            message: 'The required field is not updated',
           },
         });
       } else {
@@ -54,9 +52,9 @@ class ArticleController {
           }
         );
         return res.status(200).json({
-          status: "success",
+          status: 'success',
           data: {
-            message: "Article successfully updated",
+            message: 'Article successfully updated',
             title: updatedArticle.title,
             article: updatedArticle.article,
           },
@@ -76,14 +74,14 @@ class ArticleController {
         return res.status(401).json({
           status: error,
           data: {
-            message: "This id does not exist",
+            message: 'This id does not exist',
           },
         });
       } else {
         return res.status(200).json({
-          status: "success",
+          status: 'success',
           data: {
-            message: "Article successfully deleted",
+            message: 'Article successfully deleted',
           },
         });
       }
@@ -91,7 +89,7 @@ class ArticleController {
       return res.status(500).json({
         status: error,
         data: {
-          message: "Server error",
+          message: 'Server error',
         },
       });
     }
@@ -112,9 +110,9 @@ class ArticleController {
       result.comments.push(newComment);
       await result.save();
       return res.status(201).json({
-        status: "success",
+        status: 'success',
         data: {
-          message: "Comment successfully created",
+          message: 'Comment successfully created',
           createdOn: Date.now(),
           articleTitle: result.title,
           article: result.article,
@@ -126,7 +124,7 @@ class ArticleController {
       return res.status(500).json({
         status: error,
         data: {
-          message: "Server Error",
+          message: 'Server Error',
         },
       });
     }
@@ -136,18 +134,15 @@ class ArticleController {
     try {
       const articles = await Article.find({});
       const gifs = await Gifs.find({});
-
       const allPosts = articles.concat(gifs);
-
       allPosts.sort((a, b) => {
         let x = new Date(a.Date),
           y = new Date(b.Date);
-        console.log(x.getTime(), y.getTime());
         return y - x;
-        // return a.Date > b.Date;
       });
       return res.status(200).json({
-        allPosts,
+        status: 'success',
+        data: allPosts,
       });
     } catch (error) {
       console.log(error);
