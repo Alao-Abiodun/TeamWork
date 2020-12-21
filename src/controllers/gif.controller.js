@@ -1,4 +1,5 @@
 import Gif from '../models/gif.model';
+import Comment from '../models/comment.model';
 
 class GifController {
   async createImage(req, res) {
@@ -67,12 +68,13 @@ class GifController {
     try {
       const { comment } = req.body;
       const { gifId } = req.params;
-      const newGif = new Gif({
+      const newComment = new Comment({
         comment,
       });
-      newGif.save();
-      const result = await Gif.findOne({ _id: gifId });
-      result.comments.push(newGif);
+      await newComment.save();
+      const result = await Gif.findOne({ _id: gifId, author: req.user.id });
+      result.comments.push(newComment);
+      await result.save();
       return res.status(201).json({
         status: 'success',
         data: {

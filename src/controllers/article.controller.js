@@ -102,12 +102,13 @@ class ArticleController {
       const newComment = new Comment({
         comment,
       });
-      newComment.save();
+      await newComment.save();
       const result = await Article.findOne({
         _id: articleId,
         author: req.user.id,
       });
       result.comments.push(newComment);
+      await result.save();
       return res.status(201).json({
         status: 'success',
         data: {

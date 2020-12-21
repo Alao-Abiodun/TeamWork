@@ -11,7 +11,8 @@ const auth = async (req, res, next) => {
       return res.status(401).json({
         error: 'Token is not verified',
       });
-    const decoded = jwt.verify(token, JWT_SECRET);
+    const decoded = await jwt.verify(token, JWT_SECRET);
+    console.log(decoded);
     if (!decoded) {
       throw new Error();
     }
