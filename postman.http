@@ -1,0 +1,24 @@
+# SignIn with the created account
+POST http://localhost:5000/api/v1/auth/login
+Content-Type: application/json
+
+{
+    "email": "alao43844@gmail.com",
+    "password": "abiodun1996" 
+}
+
+# Create a new User
+
+POST http://localhost:5000/api/v1/auth/create-user
+Content-Type: application/json
+
+{
+    "firstName": "Abiodun",
+    "lastName": "Alao",
+    "email": "alao43844@gmail.com",
+    "gender": "Male",
+    "password": "abiodun1996",
+    "jobRole": "Backend Developer",
+    "department": "Software Department",
+    "address": "16, orokun street Ebute Metta West Lagos."
+}

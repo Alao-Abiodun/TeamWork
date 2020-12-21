@@ -1,0 +1,31 @@
+paths:
+  /users/:
+    post:
+      tags:
+        - User
+        summary: creates a new user
+        produces:
+          - application/json
+          parameters:
+            - in: body
+            name: sign up
+            description: It enables a user to create an account
+            required: false
+            schema:
+              $ref: '#/definitions/signup'
+          responses:
+            201:
+              description: An object with user details
+definitioin:
+  signUp:
+    type: object
+    properties: 
+      user:
+        type: object  
+        properties:
+          username:
+            type: string
+          email:
+            type: string
+          password: 
+            type: string
