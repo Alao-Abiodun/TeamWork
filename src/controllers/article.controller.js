@@ -145,7 +145,40 @@ class ArticleController {
         data: allPosts,
       });
     } catch (error) {
+      return res.status(500).json({
+        status: error,
+        data: {
+          message: 'Server Error',
+        },
+      });
+    }
+  }
+
+  async getSingleArticle(req, res) {
+    try {
+      const { articleId } = req.params;
+      const article = await Article.findById({
+        _id: articleId,
+      });
+      await article.populate('comments').execPopulate();
+      if (!article)
+        return res.status(401).json({
+          status: 'error',
+        });
+      return res.status(200).json({
+        status: 'success',
+        data: {
+          article,
+        },
+      });
+    } catch (error) {
       console.log(error);
+      return res.status(500).json({
+        status: error,
+        data: {
+          message: 'Server Error',
+        },
+      });
     }
   }
 }

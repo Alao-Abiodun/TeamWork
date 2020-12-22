@@ -11,12 +11,6 @@ const ArticleSchema = new Schema({
     type: String,
     required: true,
   },
-  comments: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Comment',
-    },
-  ],
   author: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -26,6 +20,12 @@ const ArticleSchema = new Schema({
     type: Date,
     default: Date.now(),
   },
+  comments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Comment',
+    },
+  ],
 });
 
 const Article = mongoose.model('Article', ArticleSchema);

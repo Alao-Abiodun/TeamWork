@@ -13,7 +13,7 @@ router.post(
   auth,
   articleCtrl.addArticleComment
 );
-
 router.get('/feed', auth, articleCtrl.getFeeds);
+router.get('/articles/:articleId', auth, articleCtrl.getSingleArticle);
 
 export default router;

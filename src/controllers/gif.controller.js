@@ -94,6 +94,31 @@ class GifController {
       });
     }
   }
+
+  async getSingleGif(req, res) {
+    try {
+      const { gifId } = req.params;
+      const gif = await Gif.findOne({ _id: gifId, author: req.user.id });
+      await gif.populate('comments').execPopulate();
+      if (!gif)
+        return res.status(401).json({
+          status: 'error',
+        });
+      return res.status(200).json({
+        status: 'success',
+        data: {
+          gif,
+        },
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: error,
+        data: {
+          message: 'Server Error',
+        },
+      });
+    }
+  }
 }
 
 export default new GifController();
