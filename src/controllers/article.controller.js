@@ -159,6 +159,7 @@ class ArticleController {
       const { articleId } = req.params;
       const article = await Article.findById({
         _id: articleId,
+        author: req.user.id,
       });
       await article.populate('comments').execPopulate();
       if (!article)
