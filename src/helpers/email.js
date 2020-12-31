@@ -9,8 +9,8 @@ exports.sendMail = async (config) => {
       port: 465,
       secure: true,
       auth: {
-        user: "mayowad43@gmail.com",
-        pass: "DevDabiriMayowa",
+        user: "<emaill address>",
+        pass: "<password>",
       },
       tls: {
         rejectUnauthorized: false,
