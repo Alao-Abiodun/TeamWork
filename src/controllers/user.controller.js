@@ -1,9 +1,10 @@
-import User from '../models/user.model';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import User from "../models/user.model";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
+const {sendMail} = require("../helpers/email");
 
 const { JWT_SECRET } = process.env;
 
@@ -23,7 +24,7 @@ class UserController {
       const existingUser = await User.findOne({ email });
       if (existingUser)
         return res.status(400).json({
-          message: 'User already exist, please signIn.',
+          message: "User already exist, please signIn.",
         });
       const salt = await bcrypt.genSalt(10);
       const hashPassword = await bcrypt.hash(password, salt);
@@ -40,13 +41,19 @@ class UserController {
       });
       const createdUser = await user.save();
       const token = await jwt.sign({ id: createdUser._id }, JWT_SECRET, {
-        expiresIn: '2h',
+        expiresIn: "2h",
       });
+      const config = {
+        subject: "Login details",
+        to: ,
+        html:
+      }
+      const email = sendMail();
       return res.status(201).json({
-        status: 'success',
+        status: "success",
         data: {
-          message: 'User successfully created',
-          token,
+          message: "User successfully created",
+          // token,
           userId: createdUser._id,
         },
       });
@@ -55,7 +62,7 @@ class UserController {
       return res.status(500).json({
         status: error,
         data: {
-          message: 'Server Error',
+          message: "Server Error",
         },
       });
     }
@@ -67,24 +74,24 @@ class UserController {
       const user = await User.findOne({ email });
       if (!user) {
         return res.status(400).json({
-          status: error,
-          error: 'This email does not exist',
+          // status: error,
+          error: "This email does not exist",
         });
       } else {
-        const confirmPassword = await bcrypt.compare(password, user.password);
+        // const confirmPassword = await bcrypt.compare(password, user.password);
         if (!confirmPassword) {
           return res.status(400).json({
-            status: 'error',
+            status: "error",
             data: {
-              message: 'User password is incorrect',
+              message: "User password is incorrect",
             },
           });
         } else {
           const token = await jwt.sign({ id: user._id }, JWT_SECRET, {
-            expiresIn: '2h',
+            expiresIn: "2h",
           });
           return res.status(200).json({
-            status: 'success',
+            status: "success",
             data: {
               token,
               userId: user._id,
@@ -96,7 +103,7 @@ class UserController {
       console.log(error);
       return res.status(500).json({
         status: error,
-        error: new Error('Server Error'),
+        error: new Error("Server Error"),
       });
     }
   }
