@@ -37,24 +37,28 @@ class UserController {
         jobRole,
         department,
         address,
-        token,
+        // token,
       });
       const createdUser = await user.save();
       const token = await jwt.sign({ id: createdUser._id }, JWT_SECRET, {
         expiresIn: "2h",
       });
+      // user.token = token
       const config = {
         subject: "Login details",
-        to: ,
-        html:
+        to: email,
+        html: `<h1>Login Details</h1>
+        <p>email ${email}</p>
+        <p>password: ${password}</p>`
       }
-      const email = sendMail();
+      const mail = sendMail(config);
       return res.status(201).json({
         status: "success",
         data: {
           message: "User successfully created",
           // token,
           userId: createdUser._id,
+          token
         },
       });
     } catch (error) {

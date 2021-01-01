@@ -1,16 +1,16 @@
 const nodemailer = require("nodemailer");
 
 exports.sendMail = async (config) => {
-  let account = await nodemailer.createTestAccount();
-  console.log(account)
+  // let account = await nodemailer.createTestAccount();
+  // console.log(account)
   try {
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
       port: 465,
       secure: true,
       auth: {
-        user: "<emaill address>",
-        pass: "<password>",
+        user: "mayowad43@gmail.com",
+        pass: "DevDabiriMayowa",
       },
       tls: {
         rejectUnauthorized: false,
