@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 
 import dotenv from "dotenv";
 dotenv.config();
-const {sendMail} = require("../helpers/email");
+const { sendMail } = require("../helpers/email");
 
 const { JWT_SECRET } = process.env;
 
@@ -39,26 +39,26 @@ class UserController {
         address,
         // token,
       });
-      const createdUser = await user.save();
-      const token = await jwt.sign({ id: createdUser._id }, JWT_SECRET, {
-        expiresIn: "2h",
-      });
-      // user.token = token
       const config = {
         subject: "Login details",
         to: email,
         html: `<h1>Login Details</h1>
         <p>email ${email}</p>
-        <p>password: ${password}</p>`
-      }
-      const mail = sendMail(config);
+        <p>password: ${password}</p>`,
+      };
+      await sendMail(config);
+      const createdUser = await user.save();
+      const token = await jwt.sign({ id: createdUser._id }, JWT_SECRET, {
+        expiresIn: "2h",
+      });
+      // user.token = token
+
       return res.status(201).json({
         status: "success",
         data: {
           message: "User successfully created",
-          // token,
+          token,
           userId: createdUser._id,
-          token
         },
       });
     } catch (error) {
@@ -82,7 +82,7 @@ class UserController {
           error: "This email does not exist",
         });
       } else {
-        // const confirmPassword = await bcrypt.compare(password, user.password);
+        const confirmPassword = await bcrypt.compare(password, user.password);
         if (!confirmPassword) {
           return res.status(400).json({
             status: "error",
