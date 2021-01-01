@@ -1,16 +1,16 @@
-const nodemailer = require("nodemailer");
+const nodemailer = require('nodemailer');
 
-exports.sendMail = async (config) => {
+exports.sendMail = async config => {
   let account = await nodemailer.createTestAccount();
-  console.log(account)
+  console.log(account);
   try {
     const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
+      host: 'smtp.gmail.com',
       port: 465,
       secure: true,
       auth: {
-        user: "<emaill address>",
-        pass: "<password>",
+        user: 'abiodundev@gmail.com',
+        pass: 'abiodun1996',
       },
       tls: {
         rejectUnauthorized: false,
@@ -18,12 +18,13 @@ exports.sendMail = async (config) => {
     });
 
     const info = await transporter.sendMail({
-      from: "teamwork@gmail.com",
+      from: 'teamwork@gmail.com',
       ...config,
     });
 
     return `Preview URL: %s', ${nodemailer.getTestMessageUrl(info)}`;
   } catch (err) {
+    console.log(err);
     throw new Error(err.message);
   }
 };
