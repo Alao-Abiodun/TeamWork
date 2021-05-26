@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 
-exports.sendMail = async (config) => {
+exports.sendMail = async config => {
   // let account = await nodemailer.createTestAccount();
   // console.log(account)
   try {
@@ -9,8 +9,8 @@ exports.sendMail = async (config) => {
       port: 465,
       secure: true,
       auth: {
-        user: "mayowad43@gmail.com",
-        pass: "DevDabiriMayowa",
+        user: 'abiodundev@gmail.com',
+        pass: 'abiodun1996',
       },
       tls: {
         rejectUnauthorized: false,

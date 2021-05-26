@@ -1,19 +1,24 @@
 import express from 'express';
 import fileUpload from 'express-fileupload';
+
 import dotenv from 'dotenv';
 dotenv.config();
-
-import db from './db';
-db;
 
 import userRoutes from './routes/user.route';
 import gifRoutes from './routes/gif.route';
 import articleRoutes from './routes/article.route';
+import bookRoutes from './routes/book.route';
+
+const { seedAdmin } = require('./seeding/admin');
+// console.log(seedAdmin());
 
 const app = express();
 const { PORT } = process.env;
 
 app.use(express.json());
+
+import db from './db';
+db;
 
 app.use(
   fileUpload({
@@ -33,6 +38,9 @@ app.use('/api/v1', gifRoutes);
 
 // create an article
 app.use('/api/v1', articleRoutes);
+
+// create a book
+app.use('/api/v1', bookRoutes);
 
 app.listen(PORT, () => {
   console.log(`connected to PORT ${PORT}`);

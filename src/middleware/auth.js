@@ -4,7 +4,7 @@ dotenv.config();
 
 const { JWT_SECRET } = process.env;
 
-const auth = async (req, res, next) => {
+exports.auth = async (req, res, next) => {
   try {
     const token = req.headers.authorization.split(' ')[1];
     if (!token)
@@ -16,10 +16,18 @@ const auth = async (req, res, next) => {
       throw new Error();
     }
     req.user = decoded;
+    console.log(req.user);
     next();
   } catch (e) {
     res.status(401).send({ error: 'Token expired' });
   }
 };
 
-export default auth;
+exports.checkIfUser = (req, res, next) => {
+  if (req.user.role !== 'admin') {
+    return res
+      .status(401)
+      .json({ message: 'users does not have access to this route...' });
+  }
+  return next();
+};
