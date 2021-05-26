@@ -1,5 +1,7 @@
-## TeamWork Application
+# TeamWork Application
 
-### Application Programming Interface
+### [Live Site](https://teamwork-application.netlify.com)
 
-### TeamWork Backend API
+![TeamWork Application](https://ibb.co/c3DFSPV.jpg)
+
+
