@@ -5,7 +5,6 @@ import customError from '../utils/errorHandler';
 import responseHandler from '../utils/responseHandler';
 
 exports.createImage = async (req, res, next) => {
-  console.log(req.user._id);
   try {
     const { title } = req.body;
     const { image } = req.files;
@@ -33,8 +32,15 @@ exports.deleteGif = async (req, res, next) => {
     const { gifId } = req.params;
     const gif = await Gif.findByIdAndDelete({
       _id: gifId,
-      author: req.user.id,
+      author: req.user._id,
     });
+    if (gifId !== gif.author)
+      return next(
+        new customError(
+          401,
+          'The Id does not correspond with the author verification Id'
+        )
+      );
     if (!gif) {
       return next(new customError(400, 'The documents does not exist'));
     } else {
@@ -50,11 +56,15 @@ exports.addGifComment = async (req, res, next) => {
   try {
     const { comment } = req.body;
     const { gifId } = req.params;
+    if (!gifId) return next(new customError(401, 'Invalid ID'));
     const newComment = new Comment({
       comment,
     });
     await newComment.save();
-    const result = await Gif.findOne({ _id: gifId, author: req.user.id });
+    const result = await Gif.findOne({ _id: gifId, author: req.user._id });
+    console.log(result);
+    if (!result.author)
+      return next(new customError(404, 'The user with the ID does not exist'));
     result.comments.push(newComment);
     await result.save();
     return responseHandler(res, 201, result, 'comment successfully created');
@@ -67,7 +77,7 @@ exports.addGifComment = async (req, res, next) => {
 exports.getSingleGif = async (req, res, next) => {
   try {
     const { gifId } = req.params;
-    const gif = await Gif.findOne({ _id: gifId, author: req.user.id });
+    const gif = await Gif.findOne({ _id: gifId, author: req.user._id });
     await gif.populate('comments').execPopulate();
     if (!gif) {
       return next(new customError(401, 'error'));
