@@ -2,31 +2,34 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
-const GifSchema = new Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  image: {
-    type: String,
-    required: true,
-  },
-  comments: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Comment',
+const GifSchema = new Schema(
+  {
+    title: {
+      type: String,
+      required: true,
     },
-  ],
-  author: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
+    image: {
+      type: String,
+      required: true,
+    },
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Comment',
+      },
+    ],
+    author: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    Date: {
+      type: Date,
+      default: Date.now(),
+    },
   },
-  Date: {
-    type: Date,
-    default: Date.now(),
-  },
-});
+  { timestamps: true }
+);
 
 const Gif = mongoose.model('Gif', GifSchema);
 export default Gif;

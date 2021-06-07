@@ -1,7 +1,7 @@
-module.exports = (message, data, success) => {
-  return {
-    message: message || null,
-    data: data || null,
-    success: success == null || success,
-  };
+module.exports = (res, status, data, message) => {
+  res.status(status).json({
+    data,
+    status: 'success',
+    message,
+  });
 };

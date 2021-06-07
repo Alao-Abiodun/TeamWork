@@ -3,17 +3,20 @@ import { auth } from '../middleware/auth';
 
 const router = express.Router();
 
-import articleCtrl from '../controllers/article.controller';
+import {
+  createArticle,
+  updateArticle,
+  deleteArticle,
+  addArticleComment,
+  getFeeds,
+  getSingleArticle,
+} from '../controllers/article.controller';
 
-router.post('/articles', auth, articleCtrl.createArticle);
-router.patch('/articles/:articleId', auth, articleCtrl.updateArticle);
-router.delete('/articles/:articleId', auth, articleCtrl.deleteArticle);
-router.post(
-  '/articles/:articleId/comment',
-  auth,
-  articleCtrl.addArticleComment
-);
-router.get('/feed', auth, articleCtrl.getFeeds);
-router.get('/articles/:articleId', auth, articleCtrl.getSingleArticle);
+router.post('/articles', auth, createArticle);
+router.patch('/articles/:articleId', auth, updateArticle);
+router.delete('/articles/:articleId', auth, deleteArticle);
+router.post('/articles/:articleId/comment', auth, addArticleComment);
+router.get('/feed', auth, getFeeds);
+router.get('/articles/:articleId', auth, getSingleArticle);
 
 export default router;

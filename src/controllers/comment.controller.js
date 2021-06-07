@@ -1,20 +1,23 @@
 import Comment from '../models/comment.model';
 
+import customError from '../utils/errorHandler';
+import responseHandler from '../utils/responseHandler';
+
 import dotenv from 'dotenv';
 dotenv.config();
 
 const { JWT_SECRET } = process.env;
 
-class CommentController {
-  async createCommentArticle(req, res) {
-    try {
-    } catch (error) {
-      return res.status(500).json({
-        status: error,
-        error: new Error('Server Error'),
-      });
-    }
+exports.createCommentArticle = async (req, res, next) => {
+  try {
+  } catch (error) {
+    console.log(error);
+    return next(
+      new customError(
+        500,
+        'Something went wrong, Please try again',
+        error.message
+      )
+    );
   }
-}
-
-export default new CommentController();
+};

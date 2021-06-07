@@ -2,11 +2,11 @@
   "name": "anyNodeApp",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
     "build": "babel src --out-dir dist",
-    "dev": "nodemon ./src/server.js --exec babel-node",
-    "start": "nodemon server.js",
+    "dev": "nodemon ./src/app.js --exec babel-node",
+    "start": "nodemon app.js",
     "test": "jest --watchAll"
   },
   "keywords": [],
